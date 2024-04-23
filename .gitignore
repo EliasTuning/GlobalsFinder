@@ -1,0 +1,4 @@
+*.bin
+work/*
+venv/*
+.idea/*
