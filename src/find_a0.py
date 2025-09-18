@@ -1,8 +1,10 @@
 import re
 from array import array
-
 import jpype
-
+from ghidra.app.util.cparser.C import CParser
+from ghidra.program.model.data import DataTypeConflictHandler
+from ghidra.program.model.symbol import SourceType
+from ghidra.program.model.listing import VariableStorage
 from src.helper import GhidraHelper
 
 
@@ -55,10 +57,8 @@ class Find_A0:
         """
         program = self.flat_api.getCurrentProgram()
         data_type_manager = program.getDataTypeManager()
-        from ghidra.app.util.cparser.C import CParser
         parser = CParser(data_type_manager)
         parsed_datatype = parser.parse(data_str)
-        from ghidra.program.model.data import DataTypeConflictHandler
         datatype = data_type_manager.addDataType(parsed_datatype, DataTypeConflictHandler.DEFAULT_HANDLER)
         pass
         # field1 = datatype.components[0]
@@ -71,10 +71,8 @@ class Find_A0:
         program = self.flat_api.getCurrentProgram()
         function = program.functionManager.getFunctionContaining(addr)
         function.setCustomVariableStorage(True)
-        from ghidra.program.model.symbol import SourceType
         self.create_data_struct()
         data_type = self.get_data_type("/register_struct")
-        from ghidra.program.model.listing import VariableStorage
         # from ghidra.program.model.lang import Register
         a0_reg = program.getRegister("a0")
         a1_reg = program.getRegister("a1")

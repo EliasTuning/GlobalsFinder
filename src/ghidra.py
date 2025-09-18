@@ -1,11 +1,9 @@
 import contextlib
 import os
 import shutil
-
-from pyhidra.launcher import HeadlessPyhidraLauncher
-import pyhidra
 from pathlib import Path
-
+import pyhidra
+from pyhidra.launcher import HeadlessPyhidraLauncher
 from src.helper import GhidraHelper
 from src.setup_memorymap import SetupMemoryMap
 

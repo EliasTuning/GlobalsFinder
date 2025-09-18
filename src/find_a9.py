@@ -1,8 +1,9 @@
 import re
 from array import array
-
 import jpype
-
+from ghidra.util import NumericUtilities
+from ghidra.app.plugin.core.analysis import AutoAnalysisManager
+from ghidra.app.util.importer import MessageLog
 from src.helper import GhidraHelper
 
 
@@ -16,7 +17,6 @@ class Find_A9:
     def set_reg(self, regname, regvalue):
         currentProgram = self.flat_api.getCurrentProgram()
         context = currentProgram.getProgramContext()
-        from ghidra.util import NumericUtilities
         regvalue = NumericUtilities.unsignedLongToBigInteger(regvalue)
         register = context.getRegister(regname)
         start = self.helper.to_addr(0x8000000)
@@ -55,13 +55,11 @@ class Find_A9:
         return ''.join(result)
 
     def run_analyzer(self):
-        from ghidra.app.plugin.core.analysis import AutoAnalysisManager
         currentProgram = self.flat_api.getCurrentProgram()
         # Get the AutoAnalysisManager for the current program
         mgr = AutoAnalysisManager.getAnalysisManager(currentProgram)
         # Get the analyzer by name
         analyzer = mgr.getAnalyzer("Basic Constant Reference Analyzer")
-        from ghidra.app.util.importer import MessageLog
         log = MessageLog()
         addr_set = currentProgram.getMemory()
         success = analyzer.added(currentProgram, addr_set, self.helper.get_monitor(), log)
