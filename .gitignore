@@ -1,0 +1,6 @@
+*.bin
+*.elf
+*.hex
+work/*
+.idea/*
+venv/*
