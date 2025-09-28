@@ -4,8 +4,7 @@ import shutil
 from pathlib import Path
 import pyhidra
 from pyhidra.launcher import HeadlessPyhidraLauncher
-from src.helper import GhidraHelper
-from src.setup_memorymap import SetupMemoryMap
+
 
 
 class Ghidra:
@@ -32,6 +31,8 @@ class Ghidra:
                 loader=loader
         ) as flat_api:
             if loader == 'ghidra.app.util.opinion.BinaryLoader':
+                from src.helper import GhidraHelper
+                from src.setup_memorymap import SetupMemoryMap
                 helper = GhidraHelper(flat_api)
                 memory_map = SetupMemoryMap(flat_api, helper)
                 memory_map.setup()

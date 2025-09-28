@@ -2,23 +2,24 @@
 
 # Press Alt+Umschalt+X to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-from src import find_a0
-from src.find_a0 import Find_A0
-from src.find_a9 import Find_A9
-from src.ghidra import Ghidra
-from src.helper import GhidraHelper
-from src.setup_memorymap import SetupMemoryMap
 
+
+from src.ghidra import Ghidra
 
 def main():
     #ilename = "BXAU77A6ZAE5_X538_Pst-DCM_1_.hex"
-    filename = '6MC4EE85_00005BA7_014_050_116.bin'
+    filename = 'BMW_M235i_200rf_boost_cap_2300_650nm.bin'
     #filename = "eeeeer4.hex"
     ghidra = Ghidra()
     with ghidra.open_program(filename) as flat_api:
+        from src.find_a0 import Find_A0
+        from src.find_a9 import Find_A9
+        from src.setup_memorymap import SetupMemoryMap
+        from src.helper import GhidraHelper
+
         helper = GhidraHelper(flat_api)
-        #find_a0 = Find_A0(flat_api, helper)
-        #print(find_a0.find())
+        find_a0 = Find_A0(flat_api, helper)
+        print(find_a0.find())
 
         find_a9 = Find_A9(flat_api, helper)
         a9 = find_a9.find()

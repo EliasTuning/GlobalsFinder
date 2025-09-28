@@ -3,7 +3,7 @@ from ghidra.program.disassemble import Disassembler
 from ghidra.util.task import ConsoleTaskMonitor
 from ghidra.program.model.address import AddressSet
 from ghidra.app.decompiler import DecompInterface
-
+from ghidra.util import NumericUtilities
 
 class GhidraHelper:
     def __init__(self, flat_api):
@@ -16,7 +16,7 @@ class GhidraHelper:
         addr_set = AddressSet()
         addr_set.addRange(from_addr, to_addr)
         instr = disasm.disassemble(from_addr, addr_set)
-        #print(instr)
+        # print(instr)
 
     def get_monitor(self):
         monitor = ConsoleTaskMonitor()
@@ -44,3 +44,12 @@ class GhidraHelper:
         elif not decomp_res.decompileCompleted():
             return ""
         return decomp_res.getDecompiledFunction().getC()
+
+    def set_reg(self, regname: str, regvalue: int):
+        currentProgram = self.flat_api.getCurrentProgram()
+        context = currentProgram.getProgramContext()
+        regvalue = NumericUtilities.unsignedLongToBigInteger(regvalue)
+        register = context.getRegister(regname)
+        start = self.to_addr(0x8000000)
+        end = self.to_addr(0x8fffffff)
+        context.setValue(register, start, end, regvalue)

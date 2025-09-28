@@ -79,7 +79,7 @@ class Find_A0:
         a8_reg = program.getRegister("a8")
         regs = [a0_reg, a1_reg, a8_reg]
         # Reverse Array because of little endian
-        #regs = regs.reverse()
+        # regs = regs.reverse()
         regs = list(reversed(regs))
 
         storage = VariableStorage(program, regs)
@@ -91,24 +91,34 @@ class Find_A0:
         # hex_pattern = "\\x4d\\x40\\xe0\\x0f"
 
         matches = self.flat_api.findBytes(self.flat_api.toAddr(0), hex_pattern, 50)
-        start_addr = matches[0]
-        end_addr = matches[1]
-        # end_addr = self.helper.to_addr(0x8012cff8)
-        self.helper.disasm(
-            from_addr=start_addr,
-            to_addr=end_addr
-        )
-        self.flat_api.createFunction(start_addr, None)
-        self.set_function_ret_struct(start_addr)
-        c_code = self.helper.decompile_addr(start_addr)
 
-        # print(c_code)
+        for match in matches:
+            try:
+                start_addr = match
+                end_addr = matches[1]
+                # end_addr = self.helper.to_addr(0x8012cff8)
+                self.helper.disasm(
+                    from_addr=start_addr,
+                    to_addr=end_addr
+                )
+                self.flat_api.createFunction(start_addr, None)
+                self.set_function_ret_struct(start_addr)
+                c_code = self.helper.decompile_addr(start_addr)
 
-        a0 = self.get_address_from_code("a0", c_code)
-        a1 = self.get_address_from_code("a1", c_code)
-        a8 = self.get_address_from_code("a8", c_code)
-        return {
-            "a0": hex(a0),
-            "a1": hex(a1),
-            "a8": hex(a8)
-        }
+                # print(c_code)
+
+                a0 = self.get_address_from_code("a0", c_code)
+                a1 = self.get_address_from_code("a1", c_code)
+                a8 = self.get_address_from_code("a8", c_code)
+                self.helper.set_reg("a1", a0)
+                self.helper.set_reg("a1", a1)
+                self.helper.set_reg("a8", a8)
+
+                return {
+                    "a0": hex(a0),
+                    "a1": hex(a1),
+                    "a8": hex(a8)
+                }
+            except ValueError as e:
+                print(f"Havent found it on location: {match}")
+                pass

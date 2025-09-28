@@ -1,7 +1,7 @@
 import re
 from array import array
 import jpype
-from ghidra.util import NumericUtilities
+
 from ghidra.app.plugin.core.analysis import AutoAnalysisManager
 from ghidra.app.util.importer import MessageLog
 from src.helper import GhidraHelper
@@ -14,14 +14,7 @@ class Find_A9:
 
     import re
 
-    def set_reg(self, regname, regvalue):
-        currentProgram = self.flat_api.getCurrentProgram()
-        context = currentProgram.getProgramContext()
-        regvalue = NumericUtilities.unsignedLongToBigInteger(regvalue)
-        register = context.getRegister(regname)
-        start = self.helper.to_addr(0x8000000)
-        end = self.helper.to_addr(0x8fffffff)
-        context.setValue(register, start, end, regvalue)
+
 
     def hex_pattern_to_regex(self, hex_pattern: str) -> str:
         """
@@ -65,11 +58,21 @@ class Find_A9:
         success = analyzer.added(currentProgram, addr_set, self.helper.get_monitor(), log)
 
     def find(self):
-        self.set_reg("a1",0x80028058)
         # Find Dme_GetPtaGroup
-        hex_pattern = "82 f2 ?? ?? ?? ?? 00 00"
-        hex_pattern = ''.join(['.' if '?' in x else f'\\x{x}' for x in hex_pattern.split()])
-        matches = self.flat_api.findBytes(self.helper.to_addr(0x80000000), hex_pattern, 50)
+        #hex_pattern = "82 f2 ?? ?? ?? ?? 00 00"
+        #hex_pattern = ''.join(['.' if '?' in x else f'\\x{x}' for x in hex_pattern.split()])
+
+        hex_pattern = "\\x82\\xF2.{6,8}\\x00\\x00"
+        #\\x50.
+        #{0, 10}\\x55
+        match_limit = 50
+        alignment = 2
+        matches = self.flat_api.findBytes(
+            self.helper.to_addr(0x80000000),
+            hex_pattern,
+            match_limit,
+            alignment
+        )
         if len(matches) != 1:
             raise ValueError("Dme_GetPtaGroup Not found...")
         addr = matches[0]
