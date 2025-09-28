@@ -1,0 +1,98 @@
+# Type Annotations and Assertions Rules
+
+## Overview
+This document defines the coding standards for type annotations and runtime assertions in the MED17-GlobalsFinder project.
+
+## Requirements
+
+### 1. Type Annotations
+- **All functions must have complete type annotations** for both parameters and return types
+- Use `typing` module imports (`Any`, `Optional`, etc.) as needed
+- Add type annotations immediately when creating or modifying functions
+- Ensure all function signatures are complete with parameter and return types
+
+### 2. Runtime Assertions
+- **All functions must include assert statements** to validate argument types at runtime
+- Assert statements should include descriptive error messages
+- For parameters typed as `Any`, add `assert param is not None` checks
+- For parameters with specific types, add `assert isinstance(param, Type)` checks
+
+## Implementation Patterns
+
+### Basic Function Template
+```python
+def example_function(param1: str, param2: int, param3: Any) -> str:
+    assert isinstance(param1, str), "param1 must be a string"
+    assert isinstance(param2, int), "param2 must be an integer"
+    assert param3 is not None, "param3 must not be None"
+    # function implementation
+    return "result"
+```
+
+### Import Requirements
+```python
+from typing import Any, Optional
+```
+
+### Assertion Patterns
+
+#### For `Any` typed parameters:
+```python
+assert param is not None, "param must not be None"
+```
+
+#### For specific type parameters:
+```python
+assert isinstance(param, str), "param must be a string"
+assert isinstance(param, int), "param must be an integer"
+```
+
+## Code Quality Standards
+
+- Maintain existing functionality while adding type safety
+- Use descriptive assertion error messages
+- No linting errors should be introduced
+- All changes should be tested for type safety
+- Follow existing code style and formatting
+
+## Examples
+
+### Constructor with Any parameter:
+```python
+def __init__(self, flat_api: Any) -> None:
+    assert flat_api is not None, "flat_api must not be None"
+    self.flat_api = flat_api
+```
+
+### Method with multiple parameters:
+```python
+def set_reg(self, regname: str, regvalue: int) -> None:
+    assert isinstance(regname, str), "regname must be a string"
+    assert isinstance(regvalue, int), "regvalue must be an integer"
+    # implementation
+```
+
+### Method with Any parameters:
+```python
+def disasm(self, from_addr: Any, to_addr: Any) -> None:
+    assert from_addr is not None, "from_addr must not be None"
+    assert to_addr is not None, "to_addr must not be None"
+    # implementation
+```
+
+## Enforcement
+
+These rules should be applied to:
+- All new functions
+- All modified functions
+- All existing functions when touched during refactoring
+- All methods in classes
+- All standalone functions
+
+## Benefits
+
+- **Runtime Safety**: Assertions catch type errors at runtime
+- **IDE Support**: Better autocomplete and error detection
+- **Code Documentation**: Type hints serve as inline documentation
+- **Debugging**: Clear error messages help identify issues quickly
+- **Maintainability**: Easier to understand and modify code
