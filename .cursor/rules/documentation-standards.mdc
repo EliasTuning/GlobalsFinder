@@ -1,4 +1,194 @@
+---
+alwaysApply: true
+---
+
 # Documentation Standards Rules
+
+## Overview
+This document defines the coding standards for function and class documentation in the MED17-GlobalsFinder project.
+
+## Requirements
+
+### 1. Class Documentation
+- **All classes must have comprehensive docstrings** describing their purpose and functionality
+- Include class overview, attributes description, and usage examples
+- Use triple-quoted strings with proper formatting
+- Document the class's role in the overall system
+
+### 2. Function Documentation
+- **All functions and methods must have detailed docstrings** following Python conventions
+- Include brief description, parameter details, return values, and exceptions
+- Use Google-style docstring format for consistency
+- Document all public methods, constructors, and utility functions
+
+## Implementation Patterns
+
+### Class Documentation Template
+```python
+class ExampleClass:
+    """
+    A brief description of the class's purpose.
+    
+    This class provides [detailed description of functionality].
+    It acts as a [role in the system] to [main purpose].
+    
+    Attributes:
+        attribute_name: Description of the attribute and its purpose
+        another_attr: Description of another attribute
+    """
+```
+
+### Function Documentation Template
+```python
+def example_function(param1: str, param2: int, param3: Any) -> str:
+    """
+    Brief description of what the function does.
+    
+    This method [detailed description of functionality and behavior].
+    It handles [specific use cases or scenarios].
+    
+    Args:
+        param1: Description of the first parameter and its expected format
+        param2: Description of the second parameter and valid ranges
+        param3: Description of the third parameter and its constraints
+        
+    Returns:
+        str: Description of what the function returns and its format
+        
+    Raises:
+        AssertionError: Description of when this exception is raised
+        ValueError: Description of when this exception is raised
+    """
+```
+
+### Method Documentation Template
+```python
+def method_name(self, param: Type) -> ReturnType:
+    """
+    Brief description of the method's purpose.
+    
+    This method [detailed description of what it does and how it works].
+    It is commonly used for [typical use cases].
+    
+    Args:
+        param: Description of the parameter and its requirements
+        
+    Returns:
+        ReturnType: Description of the return value and its meaning
+        
+    Raises:
+        AssertionError: When parameter validation fails
+        RuntimeError: When the operation cannot be completed
+    """
+```
+
+## Documentation Standards
+
+### 1. Docstring Format
+- Use triple double quotes (`"""`) for all docstrings
+- Start with a brief one-line summary
+- Follow with detailed description if needed
+- Use proper section headers: `Args:`, `Returns:`, `Raises:`
+- Maintain consistent indentation and formatting
+
+### 2. Content Requirements
+- **Brief Summary**: One-line description of the function's purpose
+- **Detailed Description**: Multi-line explanation of functionality
+- **Parameters**: All parameters with types and descriptions
+- **Return Values**: What the function returns and its format
+- **Exceptions**: All possible exceptions with conditions
+- **Examples**: Code examples for complex functions (when helpful)
+
+### 3. Language and Style
+- Use clear, concise language
+- Write in third person ("This method does...")
+- Be specific about parameter requirements
+- Include edge cases and error conditions
+- Use consistent terminology throughout
+
+## Code Quality Standards
+
+- Maintain existing functionality while adding documentation
+- Use descriptive and helpful docstrings
+- No linting errors should be introduced
+- All docstrings should be properly formatted
+- Follow existing code style and formatting
+- Ensure all public APIs are documented
+
+## Examples
+
+### Class with Attributes:
+```python
+class GhidraHelper:
+    """
+    A helper class for interacting with Ghidra's flat API.
+    
+    This class provides convenient methods for common Ghidra operations such as
+    disassembly, decompilation, address conversion, and register manipulation.
+    It acts as a wrapper around Ghidra's flat API to simplify common tasks
+    when working with binary analysis and reverse engineering.
+    
+    Attributes:
+        flat_api: The Ghidra flat API instance used for program interaction
+    """
+```
+
+### Constructor Documentation:
+```python
+def __init__(self, flat_api: Any) -> None:
+    """
+    Initialize the GhidraHelper with a flat API instance.
+    
+    Args:
+        flat_api: The Ghidra flat API instance. Must not be None.
+        
+    Raises:
+        AssertionError: If flat_api is None.
+    """
+```
+
+### Method with Complex Logic:
+```python
+def decompile_addr(self, addr: Any) -> str:
+    """
+    Decompile the function containing the specified address.
+    
+    This method attempts to decompile the function that contains the
+    given address. It uses Ghidra's decompiler to generate C-like
+    pseudocode representation of the function. The operation has a
+    timeout to prevent hanging on complex functions.
+    
+    Args:
+        addr: The address within the function to decompile. Must not be None.
+        
+    Returns:
+        str: The decompiled C code as a string, or empty string if:
+            - No function contains the address
+            - Decompilation times out
+            - Decompilation fails
+            
+    Raises:
+        AssertionError: If addr is None.
+    """
+```
+
+## Enforcement
+
+These rules should be applied to:
+- All new classes and functions
+- All modified classes and functions
+- All existing classes and functions when touched during refactoring
+- All public methods and properties
+- All utility functions and helpers
+
+## Benefits
+
+- **Code Understanding**: Clear documentation helps developers understand functionality
+- **API Documentation**: Automatic generation of API documentation
+- **IDE Support**: Better autocomplete and inline help
+- **Maintenance**: Easier to modify and extend code
+- **Onboarding**: New developers can understand the codebase faster
+- **Quality Assurance**: Documentation serves as a specification for expected behavior# Documentation Standards Rules
 
 ## Overview
 This document defines the coding standards for function and class documentation in the MED17-GlobalsFinder project.
