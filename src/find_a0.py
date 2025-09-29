@@ -22,7 +22,7 @@ class Find_A0:
         helper: The GhidraHelper instance for common Ghidra operations
         flat_api: The Ghidra flat API instance for program interaction
     """
-    
+
     def __init__(self, flat_api: Any, helper: GhidraHelper) -> None:
         """
         Initialize the Find_A0 class with Ghidra API instances.
@@ -45,13 +45,13 @@ class Find_A0:
         
         This method takes a hex string and converts it to the escaped byte format
         required by Ghidra's findBytes method. It ensures the hex string has even
-        length and formats each byte pair with the \x prefix.
+        length and formats each byte pair with the prefix.
         
         Args:
             hex_pattern: The hex string to convert (e.g., "4d40e00f"). Must not be None.
             
         Returns:
-            str: The escaped byte string (e.g., "\\x4d\\x40\\xe0\\x0f")
+            str: The escaped byte string
             
         Raises:
             ValueError: If hex_pattern has odd length

@@ -135,7 +135,9 @@ class Find_A9:
         #hex_pattern = "82 f2 ?? ?? ?? ?? 00 00"
         #hex_pattern = ''.join(['.' if '?' in x else f'\\x{x}' for x in hex_pattern.split()])
 
-        hex_pattern = "\\x82\\xF2.{6,8}\\x00\\x00"
+        hex_pattern = "\\x82\\xF2.{4}\\x00\\x00"
+        #hex_pattern = "82 f2 ?? ?? ?? ?? 00 00"
+
         #\\x50.
         #{0, 10}\\x55
         match_limit = 50
@@ -146,8 +148,12 @@ class Find_A9:
             match_limit,
             alignment
         )
-        if len(matches) != 1:
+        if len(matches) > 1:
+            raise ValueError("Dme_GetPtaGroup find multiple times!")
+        if len(matches) == 0:
             raise ValueError("Dme_GetPtaGroup Not found...")
+
+
         addr = matches[0]
         addr = addr.add(2)
         self.helper.disasm(
@@ -170,7 +176,8 @@ class Find_A9:
             raise ValueError("No references found!")
 
         to_addr = refs[0].getToAddress()
-        print(to_addr)
+        #print(to_addr)
         #self.flat_api.createDWord(to_addr)
         a9 = self.flat_api.getInt(to_addr) & 0xffffffff
+        a9 = hex(a9)
         return a9
