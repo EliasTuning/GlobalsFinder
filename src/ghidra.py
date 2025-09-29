@@ -6,6 +6,8 @@ from typing import Any, Generator
 import pyhidra
 from pyhidra.launcher import HeadlessPyhidraLauncher
 
+from src.path_helper import get_path_helper
+
 
 class Ghidra:
     """
@@ -40,9 +42,17 @@ class Ghidra:
             FileNotFoundError: If the specified file does not exist
         """
         assert file_name is not None, "file_name must not be None"
-        if os.path.isdir('work'):
-            shutil.rmtree("work")
-        os.environ["GHIDRA_INSTALL_DIR"] = "C:\\Users\\Elias\\Desktop\\Chiptuning-Projects\\Software\\Ghidra"
+        base_path = get_path_helper().get_base_path()
+        workdir = base_path.joinpath('work')
+        if workdir.is_dir():
+            shutil.rmtree(workdir)
+        env = get_path_helper().get_env()
+        ghidra_dir = env.get("GHIDRA_INSTALL_DIR")
+        if not ghidra_dir:
+            raise ValueError("Ghidra Path not set!")
+        #"C:\\Users\\Elias\\Desktop\\Chiptuning-Projects\\Software\\Ghidra"
+        #ghidra_dir = "C:\\Users\\Elias\\Desktop\\Chiptuning-Projects\\Software\\Ghidra"
+        os.environ["GHIDRA_INSTALL_DIR"] = ghidra_dir
         ext = Path(file_name).suffix
         if ext == "hex":
             loader = 'ghidra.app.util.opinion.IntelHexLoader'
@@ -53,7 +63,7 @@ class Ghidra:
 
         with pyhidra.open_program(
                 binary_path=file_name,
-                project_location="work",
+                project_location=base_path,
                 project_name="work",
                 analyze=False,
                 language='tricore:LE:32:med17',
