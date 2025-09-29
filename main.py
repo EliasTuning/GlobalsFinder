@@ -8,6 +8,7 @@ from src.ghidra import Ghidra
 import argparse
 import json
 from typing import Any, Dict
+from pathlib import Path
 
 DEFAULT_FILENAME = "6MC4EE85_00005BA7_014_050_116.elf"
 
@@ -28,8 +29,12 @@ def main(filename: str) -> None:
 
     Raises:
         AssertionError: If `filename` is not a string.
+        FileNotFoundError: If the specified `filename` does not exist.
     """
     assert isinstance(filename, str), "filename must be a string"
+    file_path = Path(filename)
+    if not file_path.exists():
+        raise FileNotFoundError(f"Input file does not exist: {file_path}")
 
     ghidra = Ghidra()
     with ghidra.open_program(filename) as flat_api:

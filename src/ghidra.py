@@ -53,12 +53,13 @@ class Ghidra:
 
         with pyhidra.open_program(
                 binary_path=file_name,
-                project_location=None,
+                project_location="work",
                 project_name="work",
                 analyze=False,
                 language='tricore:LE:32:med17',
                 compiler='default',
-                loader=loader
+                loader=loader,
+
         ) as flat_api:
             if loader == 'ghidra.app.util.opinion.BinaryLoader':
                 from src.helper import GhidraHelper
