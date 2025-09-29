@@ -256,5 +256,5 @@ class Find_A0:
                     "a8": hex(a8)
                 }
             except ValueError as e:
-                print(f"Havent found it on location: {match}")
+                #print(f"Havent found it on location: {match}")
                 pass
