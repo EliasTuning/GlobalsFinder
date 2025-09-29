@@ -5,6 +5,9 @@ from ghidra.util.task import ConsoleTaskMonitor
 from ghidra.program.model.address import AddressSet
 from ghidra.app.decompiler import DecompInterface
 from ghidra.util import NumericUtilities
+from ghidra.app.plugin.core.analysis import AutoAnalysisManager
+from ghidra.app.util.importer import MessageLog
+
 
 class GhidraHelper:
     """
@@ -18,7 +21,7 @@ class GhidraHelper:
     Attributes:
         flat_api: The Ghidra flat API instance used for program interaction
     """
-    
+
     def __init__(self, flat_api: Any) -> None:
         """
         Initialize the GhidraHelper with a flat API instance.
@@ -155,3 +158,21 @@ class GhidraHelper:
         start = self.to_addr(0x8000000)
         end = self.to_addr(0x8fffffff)
         context.setValue(register, start, end, regvalue)
+
+    def run_analyzer(self, analyzerName: str = "Basic Constant Reference Analyzer") -> None:
+        """
+        Run the Basic Constant Reference Analyzer on the current program.
+
+        This method executes Ghidra's Basic Constant Reference Analyzer to
+        analyze constant references in the program. It uses the current program's
+        memory and a console monitor for the analysis process.
+
+        """
+        currentProgram = self.flat_api.getCurrentProgram()
+        # Get the AutoAnalysisManager for the current program
+        mgr = AutoAnalysisManager.getAnalysisManager(currentProgram)
+        # Get the analyzer by name
+        analyzer = mgr.getAnalyzer(analyzerName)
+        log = MessageLog()
+        addr_set = currentProgram.getMemory()
+        success = analyzer.added(currentProgram, addr_set, self.get_monitor(), log)

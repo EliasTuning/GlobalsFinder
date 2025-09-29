@@ -10,7 +10,8 @@ def main():
     #ilename = "BXAU77A6ZAE5_X538_Pst-DCM_1_.hex"
     #filename = 'BMW_M235i_200rf_boost_cap_2300_650nm.bin'
     #filename = "eeeeer4.hex"
-    filename = "8K2907115AF.bin"
+    filename = "6MC4EE85_00005BA7_014_050_116.elf"
+    #filename = "BMW_M235i_200rf_boost_cap_2300_650nm.bin"
 
     ghidra = Ghidra()
     with ghidra.open_program(filename) as flat_api:
