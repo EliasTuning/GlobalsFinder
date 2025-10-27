@@ -54,9 +54,11 @@ class Ghidra:
         #ghidra_dir = "C:\\Users\\Elias\\Desktop\\Chiptuning-Projects\\Software\\Ghidra"
         os.environ["GHIDRA_INSTALL_DIR"] = ghidra_dir
         ext = Path(file_name).suffix
-        if ext == "hex":
+        if ext == ".s19":
+            loader = 'ghidra.app.util.opinion.MotorolaHexLoader'
+        elif ext == ".hex":
             loader = 'ghidra.app.util.opinion.IntelHexLoader'
-        elif ext == "elf":
+        elif ext == ".elf":
             loader = 'ghidra.app.util.opinion.ElfLoader'
         else:
             loader = 'ghidra.app.util.opinion.BinaryLoader'

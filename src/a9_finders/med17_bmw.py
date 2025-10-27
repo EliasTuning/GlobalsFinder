@@ -23,7 +23,7 @@ class MED17_BMW:
     def find(self):
         hex_pattern = r"\x82\xF2.{4}\xCC\x20\x00\x00"
         match_limit = 50
-        alignment = 2
+        alignment = 1
         matches = self.flat_api.findBytes(
             self.helper.to_addr(0x80000000),
             hex_pattern,
@@ -36,6 +36,7 @@ class MED17_BMW:
             raise ValueError("Dme_GetPtaGroup Not found...")
         # First match
         ld_addr = matches[0]
+        #
         # Add two bytes to get into the LD instruction
         ld_addr = ld_addr.add(6)
         # Disasm only the LD instruction
