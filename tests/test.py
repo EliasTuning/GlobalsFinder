@@ -33,6 +33,14 @@ results: List[Dict[str, str]] = [
         'a1': '0x80038d10',
         'a8': '0xafe88000',
         'a9': '0x80166a00'
+    },
+    {
+        'file': 'EDC17C50.bin',
+        'a0': '0xd000a0d0',
+        'a1': '0x80231e88',
+        'a8': '0xafe88000',
+        'a9': '0x802845a0',
+        'dme_ptegroup': 0x800ffba8
     }
 ]
 

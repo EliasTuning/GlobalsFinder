@@ -10,7 +10,7 @@ import json
 from typing import Any, Dict
 from pathlib import Path
 
-DEFAULT_FILENAME = "input.bin"
+DEFAULT_FILENAME = "EDC17C50.bin"
 
 
 def main(filename: str) -> None:

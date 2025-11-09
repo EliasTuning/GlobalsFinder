@@ -3,6 +3,7 @@ from array import array
 import jpype
 from typing import Any, Optional
 
+from src.a9_finders.edc17_cp50 import EDC17_CP50
 from src.a9_finders.edc17_vag import EDC17_VAG
 from src.a9_finders.med17_bmw import MED17_BMW
 from src.a9_finders.med17_vag import MED17_VAG
@@ -50,6 +51,10 @@ class Find_A9:
                 helper=self.helper
             ),
             MED17_BMW(
+                flat_api=self.flat_api,
+                helper=self.helper
+            ),
+            EDC17_CP50(
                 flat_api=self.flat_api,
                 helper=self.helper
             )
